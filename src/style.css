@@ -1,0 +1,80 @@
+body {
+    background-color: #f3f3f3;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+#app > button {
+    margin: 10px 0px 0px 0px;
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 10px;
+}
+
+form {
+    margin-top: 10px;
+    display: flex;
+}
+
+form > input {
+    flex-grow: 1;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: 1px solid;
+    padding: 10px;
+}
+
+form > button {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: 1px solid;
+    border-left: none;
+    padding: 10px;
+}
+
+.del {
+    float: right;
+    border-radius: 50%;
+    border: 1px solid;
+}
+
+.completed {
+    float: right;   
+}
+
+fieldset {
+    border-radius: 10px;
+    margin: 10px 0px;
+}
+
+button {
+    pointer: cursor;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    background-color: #e9ecef;
+}
+
+button:hover {
+    background-color: #e9ecef;
+}
