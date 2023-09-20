@@ -1,5 +1,3 @@
-import { render } from "@rezact/rezact";
-import App from "./App";
+import { router } from "./appRouter";
 
-const appDiv = document.getElementById("app");
-render(appDiv, App);
+router.routeRequest(window.location.pathname);
