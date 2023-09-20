@@ -16,6 +16,12 @@ export function Page() {
           https://github.com/Rezact/Rezact
         </a>
       </p>
+      <p class="mt-5">
+        Want to chat about Rezact? Hit me up on Twitter:{" "}
+        <a href="https://twitter.com/zachwritescode">
+          https://twitter.com/zachwritescode
+        </a>
+      </p>
     </>
   );
 }
