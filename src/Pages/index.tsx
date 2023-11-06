@@ -36,7 +36,7 @@ export function Page() {
           https://twitter.com/zachwritescode
         </a>
       </p>
-      <div class=" h-[800px]">
+      {/* <div class=" h-[800px]">
         <blockquote class="twitter-tweet h-[800px]">
           <p lang="en" dir="ltr">
             In the labyrinthine halls of the Library of Babel, a whisper of a
@@ -56,7 +56,7 @@ export function Page() {
           src="https://platform.twitter.com/widgets.js"
           charset="utf-8"
         ></script>
-      </div>
+      </div> */}
     </div>
   );
 }
