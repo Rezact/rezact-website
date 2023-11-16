@@ -27,7 +27,7 @@ export function Page() {
           class=" text-center w-full block bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
           href="https://github.com/Rezact/Rezact"
         >
-          Check it out on gitub
+          Check it out on GitHub
         </a>
       </p>
       <p class="mt-5">
