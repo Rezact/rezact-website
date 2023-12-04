@@ -17,6 +17,6 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
-    "@rezact/rezact": "1.0.15-beta.4"
+    "@rezact/rezact": "1.0.15-beta.28"
   }
 }
