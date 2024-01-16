@@ -6,6 +6,7 @@
     "jsxFragmentFactory": "xFragment",
     "noImplicitAny": false,
     "target": "ESNext",
+    "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
@@ -21,7 +22,14 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["./src/*"],
+      "rezact": ["./node_modules/@rezact/rezact/index.js"],
+      "rezact/*": ["./node_modules/@rezact/rezact/*"]
+    }
   },
   "include": ["src"]
 }

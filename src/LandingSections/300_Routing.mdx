@@ -1,0 +1,34 @@
+# Built in Router
+
+No need to install an external dependency, Rezact comes with a built in router that is easy to use.
+
+```typescript
+import { useRouter } from "rezact/router";
+import { Page as FourOhFour } from "./Pages/404";
+
+const router = useRouter();
+
+router.addRoute("/404", FourOhFour);
+
+const routes = [
+  {
+    path: "/",
+    component: () => import("src/Pages/LandingPage"),
+    title: "Rezact",
+  },
+  {
+    path: "/docs",
+    component: () => import("src/Docs/PageOne.mdx"),
+    title: "Rezact",
+  },
+  {
+    path: "/users/:userId",
+    component: () => import("src/Pages/Users"),
+    title: "Rezact Users",
+  },
+];
+
+router.addRoutesFromConfig(routes);
+
+export { router };
+```

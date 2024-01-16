@@ -1,4 +1,4 @@
-/** @type {import('vite').UserConfig} */
+/**@type{import('vite').UserConfig} */
 import { rezact } from "@rezact/rezact/vite-plugin";
 import { rezact_mdx } from "@rezact/rezact/vite-mdx-plugin";
 import remarkFrontmatter from "remark-frontmatter";
@@ -19,12 +19,16 @@ export default {
       polyfill: false,
     },
   },
+  esbuild: {
+    jsxFactory: "xCreateElement",
+    jsxFragment: "xFragment",
+  },
   plugins: [
     mdx({
       pragma: "r.xCreateElement",
       pragmaFrag: "r.xFragment",
       jsxRuntime: "classic",
-      pragmaImportSource: "src/lib/rezact/mdx",
+      pragmaImportSource: "@rezact/rezact/mdx",
       remarkPlugins: [
         remarkFrontmatter,
         [remarkMdxFrontmatter, { name: "fm" }],
