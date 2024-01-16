@@ -1,0 +1,14 @@
+<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+    <style>
+        .centered-text {
+            font-family: Arial, sans-serif;
+            font-size: 36px;
+            text-anchor: middle;
+            dominant-baseline: central;
+        }
+    </style>
+    <a href="https://github.com/rezact/rezact" target="_blank">
+    <text x="50%" y="50%" dy="-20" class="centered-text">Hello World</text>
+    <text x="50%" y="50%" dy="20" class="centered-text">Click Me</text>
+    </a>
+</svg>
