@@ -1,10 +1,7 @@
 import { SettingsIcon } from "./components/icons";
 import { elmRef } from "./lib/utils";
-// import "boxicons";
 
 import "./styles.css";
-let $userImageUrl = "";
-let $userFirstName = "";
 
 const nav = [
   { title: "Intro", icon: () => {}, href: "/docs", route: "/docs" },
@@ -22,7 +19,6 @@ export function MainLayout({ router }) {
   const mobileSideBarRef = new elmRef();
   const mobileCloseButtonRef = new elmRef();
   const sidebarBackdropRef = new elmRef();
-  const userMenuRef = new elmRef();
 
   const mobileSidebarClick = () => {
     mobileSidebarParentRef.show();
