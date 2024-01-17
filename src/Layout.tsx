@@ -1,5 +1,5 @@
-import { SettingsIcon } from "./components/icons";
-import { elmRef } from "./lib/utils";
+import { GitHubIcon } from "./components/icons";
+import { elmRef, scrollWatcher } from "./lib/utils";
 
 import "./styles.css";
 
@@ -62,9 +62,13 @@ export function MainLayout({ router }) {
   return (
     <>
       <div
-        onMount={() =>
-          (document.head.parentElement!.className = "h-full bg-zinc-200")
-        }
+        onMount={() => {
+          document.head.parentElement!.className = "h-full bg-zinc-200";
+          window.addEventListener("scroll", scrollWatcher);
+        }}
+        onUnmount={() => {
+          window.removeEventListener("scroll", scrollWatcher);
+        }}
       >
         {/* <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. --> */}
         <div
@@ -182,11 +186,11 @@ export function MainLayout({ router }) {
 
                     <li class="mt-auto">
                       <a
-                        href="/page1"
+                        href="https://github.com/rezact/rezact"
                         class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                       >
-                        <SettingsIcon class="h-6 w-6 shrink-0" />
-                        Settings
+                        <GitHubIcon class="h-6 w-6 shrink-0" />
+                        GitHub
                       </a>
                     </li>
                   </ul>
@@ -243,11 +247,11 @@ export function MainLayout({ router }) {
 
                 <li class="mt-auto">
                   <a
-                    href="/page1"
+                    href="https://github.com/rezact/rezact"
                     class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
                   >
-                    <SettingsIcon class="h-6 w-6 shrink-0" />
-                    Settings
+                    <GitHubIcon class="h-6 w-6 shrink-0" />
+                    GitHub
                   </a>
                 </li>
               </ul>

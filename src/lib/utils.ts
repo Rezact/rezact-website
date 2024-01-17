@@ -51,3 +51,25 @@ export class elmRef {
     this.elm.removeEventListener("click", fn);
   }
 }
+
+const localScrollHash = localStorage.getItem("scrollHash");
+const scrollHash = localScrollHash ? JSON.parse(localScrollHash) : {};
+let saveScrollTimeout: any = null;
+
+function saveScroll() {
+  localStorage.setItem("scrollHash", JSON.stringify(scrollHash));
+}
+
+export function scrollWatcher() {
+  clearTimeout(saveScrollTimeout);
+  saveScrollTimeout = setTimeout(saveScroll, 1000);
+  const route = location.href;
+  scrollHash[route] = window.scrollY;
+}
+
+export function restoreScroll() {
+  const route = location.href;
+  if (scrollHash[route]) {
+    window.scrollTo({ left: 0, top: scrollHash[route], behavior: "instant" });
+  }
+}

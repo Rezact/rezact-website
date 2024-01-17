@@ -8,6 +8,7 @@ const nav = [
   { title: "Intro", href: "#top" },
   { title: "Features", href: "#features" },
   { title: "Docs", href: "/docs" },
+  { title: "Github", href: "https://www.github.com/rezact/rezact" },
 ];
 
 const topSection: any = {};
