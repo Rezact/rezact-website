@@ -69,7 +69,7 @@ export function scrollWatcher() {
 
 export function restoreScroll() {
   const route = location.href;
-  if (scrollHash[route]) {
+  if (scrollHash[route] !== undefined || scrollHash[route] !== null) {
     window.scrollTo({ left: 0, top: scrollHash[route], behavior: "instant" });
   }
 }
