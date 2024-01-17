@@ -11,6 +11,30 @@ const nav = [
     href: "/docs/getting-started",
     route: "/docs/getting-started",
   },
+  {
+    title: "Signals",
+    icon: () => {},
+    href: "/docs/signals",
+    route: "/docs/signals",
+  },
+  {
+    title: "Effects",
+    icon: () => {},
+    href: "/docs/effects",
+    route: "/docs/effects",
+  },
+  {
+    title: "Stores",
+    icon: () => {},
+    href: "/docs/stores",
+    route: "/docs/stores",
+  },
+  {
+    title: "Gotchas",
+    icon: () => {},
+    href: "/docs/gotchas",
+    route: "/docs/gotchas",
+  },
 ];
 
 export function MainLayout({ router }) {

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "forceConsistentCasingInFileNames": false,
     "allowUnusedLabels": true,
     "jsx": "react",
     "jsxFactory": "xCreateElement",

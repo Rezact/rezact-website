@@ -57,11 +57,11 @@ html {
 }
 
 .mdx ul {
-  @apply mb-4 list-inside list-disc;
+  @apply mb-4 ml-5 list-outside list-disc;
 }
 
 .mdx ol {
-  @apply mb-4 list-inside list-decimal;
+  @apply mb-4 ml-5 list-outside list-decimal;
 }
 
 .mdx li {
@@ -101,7 +101,7 @@ html {
 }
 
 .mdx code {
-  @apply rounded bg-zinc-800 p-1;
+  @apply rounded bg-zinc-800 p-1 text-sm leading-7 text-white;
 }
 
 .mdx pre {
