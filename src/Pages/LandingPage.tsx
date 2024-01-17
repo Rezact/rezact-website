@@ -2,6 +2,7 @@ import { elmRef } from "src/lib/utils";
 import Intro from "src/LandingSections/100_Intro.mdx";
 import Signals from "src/LandingSections/200_Signals.mdx";
 import Router from "src/LandingSections/300_Routing.mdx";
+import Counter from "src/components/Counter";
 
 const nav = [
   { title: "Intro", href: "#top" },
@@ -9,28 +10,52 @@ const nav = [
   { title: "Docs", href: "/docs" },
 ];
 
+const topSection: any = {};
 const introSectionRef: any = {};
 const signalsSectionRef: any = {};
 const routerSectionRef: any = {};
 
-const sectionRefs = [introSectionRef, signalsSectionRef, routerSectionRef];
+const sectionRefs = [
+  topSection,
+  introSectionRef,
+  signalsSectionRef,
+  routerSectionRef,
+];
+
+let scrollDebounce: any = null;
+let prevScrollY = window.scrollY;
 
 function LandingScroll() {
-  let currentSection = "";
-  console.log("scrolling");
-  sectionRefs.forEach((section) => {
-    if (!section.elm) return;
-    if (location.pathname !== "/") return;
-    const sectionTop = section.elm.offsetTop;
-    const sectionHeight = section.elm.clientHeight;
-    if (pageYOffset >= sectionTop - sectionHeight / 3) {
-      currentSection = section.elm.getAttribute("id");
-    }
-  });
+  if (scrollDebounce) return;
+  prevScrollY = window.scrollY;
 
-  if (currentSection !== "") {
-    window.history.pushState(null, "", "#" + currentSection);
-  }
+  scrollDebounce = setTimeout(() => {
+    scrollDebounce = null;
+    if (prevScrollY !== window.scrollY) return LandingScroll();
+    let currentSection = "";
+
+    sectionRefs.forEach((section, idx) => {
+      if (!section.elm) return;
+      if (location.pathname !== "/") return;
+      const sectionTop = section.elm.offsetTop;
+      const sectionHeight = section.elm.clientHeight;
+
+      if (idx === 0 && window.scrollY < sectionTop - sectionHeight / 3) {
+        currentSection = section.elm.getAttribute("id");
+      } else if (window.scrollY >= sectionTop - sectionHeight / 3) {
+        currentSection = section.elm.getAttribute("id");
+      } else if (
+        idx === sectionRefs.length - 1 &&
+        window.scrollY > sectionTop + sectionHeight / 3
+      ) {
+        currentSection = section.elm.getAttribute("id");
+      }
+    });
+
+    if (currentSection !== "" && "#" + currentSection !== location.hash) {
+      window.history.pushState(null, "", "#" + currentSection);
+    }
+  }, 250);
 }
 
 export function Page() {
@@ -54,9 +79,9 @@ export function Page() {
   };
   return (
     <div
-      class="bg-gray-900"
+      class="bg-zinc-900"
       onMount={() => {
-        document.head.parentElement!.className = "h-full bg-gray-900";
+        document.head.parentElement!.className = "h-full bg-zinc-900";
         setTimeout(() => {
           window.addEventListener("scroll", LandingScroll);
         }, 1000);
@@ -65,7 +90,7 @@ export function Page() {
         window.removeEventListener("scroll", LandingScroll);
       }}
     >
-      <div id="top"></div>
+      <div ref={topSection} id="top"></div>
       <header class="sticky inset-x-0 top-0 z-10 backdrop-blur-sm backdrop-filter">
         <nav
           class="flex items-center justify-between p-6 lg:px-8"
@@ -128,7 +153,7 @@ export function Page() {
         {/* <!-- Background backdrop, show/hide based on slide-over state. --> */}
         <div
           ref={sidebarBackdropRef}
-          class="fixed inset-0 z-50 bg-gray-900/80 opacity-0 transition-opacity duration-300 ease-linear"
+          class="fixed inset-0 z-50 bg-zinc-900/80 opacity-0 transition-opacity duration-300 ease-linear"
         ></div>
         <div
           ref={mobileSideBarRef}
@@ -184,7 +209,7 @@ export function Page() {
       </div>
 
       <div class="relative isolate pt-14">
-        <div class="py-24 sm:py-32 lg:pb-40">
+        <div class="py-6 sm:py-6 lg:pb-40">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class=" text-center">
               <img src="/rezact-logo.svg" alt="Rezact Logo" class="m-auto" />
@@ -228,6 +253,7 @@ export function Page() {
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mdx mx-auto max-w-2xl text-white">
               <Signals />
+              <Counter />
             </div>
           </div>
         </div>
