@@ -1,5 +1,6 @@
-import { elmRef, getVal } from "src/lib/utils";
+import { elmRef } from "src/lib/utils";
 import { Spinner } from "./Spinner";
+import { getVal } from "@rezact/rezact/signals";
 
 export function SpinContainer(props) {
   const spinner = new elmRef();

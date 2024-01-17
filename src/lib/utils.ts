@@ -10,10 +10,6 @@ export function enableForm(formElm: HTMLFormElement) {
   });
 }
 
-export function getVal(signal: any) {
-  return signal.value;
-}
-
 export class elmRef {
   elm: any;
   constructor(elm: any = null) {
