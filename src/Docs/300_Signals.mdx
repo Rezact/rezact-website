@@ -1,6 +1,7 @@
 import { MainLayout } from "src/Layout";
 import { Todo } from "src/components/Todo";
 import { Todo100 } from "src/components/Todo_100";
+import { Todo200 } from "src/components/Todo_200";
 
 export const Layout = MainLayout;
 
@@ -166,5 +167,60 @@ the component function as you would inside a regular react component. This
 means the state will be created new everytime a component is mounted. This
 behaves in all the ways that you would expect state declared in a component to
 behave.
+
+---
+
+## Mutating Signals
+
+Following our todo tutorial, how do we add new todos?
+
+Below we show the code needed to add a new todo to the list.
+
+```diff
++import { Btn } from "./Buttons";
++import { Form } from "./Form";
++import { Input } from "./ValidatorInput";
++import { $todos } from "./todoData";
+
+export function Todo200() {
++  const addTodo = (data) => {
++    $todos.push({ $text: data.newTodo, $completed: false });
++  };
+
+  return (
+    <div class="m-4 rounded-lg bg-zinc-300 p-8 drop-shadow-xl">
+      <h1>Todo List</h1>
+      <p>{$todos.length} Todos</p>
+
+      {$todos.map(($todo, $idx) => (
+        <TodoItem $todo={$todo} $idx={$idx} />
+      ))}
+
++      <Form onSubmit={addTodo}>
++        <Input placeholder="Add Todo" name="newTodo" required />
++        <Btn type="submit" class="mt-2 w-full">
++          Add
++        </Btn>
++      </Form>
+    </div>
+  );
+}
+```
+
+<Todo200 />
+
+Go ahead and try it out!
+
+Wanna know the fun part??
+
+The todo you just added here is available in the first todo list we created earlier!
+
+Go ahead, scroll up, I dare you!
+
+To be completely fair, we have pulled out the data and placed it in its own module ([store](/docs/stores)).
+This is because we want to demonstrate how to use the data in multiple places.
+But the point is that the data is available anywhere in the app and [Rezact stores](/docs/stores) make this easy.
+
+And also to be even more fair, we are hiding some lower level details in the `Form`, `Btn` and `Input` components.
 
 </div>

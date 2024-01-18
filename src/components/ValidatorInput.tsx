@@ -3,7 +3,7 @@ import type { ValidatorOptions } from "@rezact/rezact/validator";
 
 interface InputProps extends Omit<ValidatorOptions, "inputElm"> {
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   type?: string;
   value?: any;
@@ -25,7 +25,7 @@ export function Input(props: InputProps) {
   return (
     <>
       <label for={props.name} class="sr-only">
-        {props.label}
+        {props.label || props.placeholder || props.name}
       </label>
       <input
         value={props.value || ""}

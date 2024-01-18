@@ -38,7 +38,7 @@ const routes = [
   },
   {
     path: "/docs/gotchas",
-    component: () => import("src/Docs/600_Gotchas.mdx"),
+    component: () => import("src/Docs/2600_Gotchas.mdx"),
     title: "Rezact - Effects",
   },
   // {
