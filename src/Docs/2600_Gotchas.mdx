@@ -1,4 +1,5 @@
 import { MainLayout } from "src/Layout";
+import { TestGetVal } from "src/components/TestGetVal";
 
 export const Layout = MainLayout;
 
@@ -6,5 +7,140 @@ export const Layout = MainLayout;
 
 # Gotchas
 
-</div>
+Below is a few gotchas that you may run into when using rezact.
+We are actively working on trying to improve these areas. But for now
+this guide should help you get around some of these issues.
+
+Would love to have contributions to the rezact code base to help improve!
+
+---
+
+### Mutating Signals directly in JSX
+
+Consider the following common example where we are mapping over a list
+and we want to number the list. We can do this by using the `{$idx + 1}` signal.
+And this will probably work most of the time. But if you try to filter
+the list, you will notice that the numbers don't update in the way would expect.
+
+A lot of this has to do with the way rezact handles lists and tries to intelligently
+update the DOM. Like just removing items from the DOM that are no longer needed instead
+of re-rendering the entire list from scratch.
+
+This is because the results of the statement `{$idx + 1}` is not a signal, it is a value.
+So it will only be evaluated once.
+
+```jsx
+{
+  $filteredTodos.map(($todo, $idx) => (
+    <span>
+      {$idx + 1} - {$todo.$text}
+    </span>
+  ));
+}
 ```
+
+To fix this, we need to make sure that what we pass into our JSX is a Signal.
+In this case we can simply do a reactive computation statement as shown below:
+
+```jsx
+{
+  $filteredTodos.map(($todo, $idx) => {
+    let $idxPlusOne = $idx + 1;
+    return (
+      <span>
+        {$idxPlusOne} - {$todo.$text}
+      </span>
+    );
+  });
+}
+```
+
+---
+
+### DOM/JSX events (onClick, onSubmit, etc..)
+
+Often we reach for writing function expression directly in our JSX like the example below:
+
+```jsx
+return (
+  <button onClick={() => $todos.push({ $text: "New Todo" })}>Add Todo</button>
+);
+```
+
+But you may find buggy or broken behavior when trying to do this.
+This is becuase the rezact compiler is looking for signals in the JSX
+and trying to instrument them properly. So the `$todos.push` will be recognized
+by the compiler and potentially modified. We can fix this by moving the function
+expression outside of the JSX like so:
+
+```jsx
+{
+  const addTodo = () => $todos.push({ $text: "New Todo" });
+  ...
+  return <button onClick={addTodo}>Add Todo</button>;
+}
+```
+
+---
+
+### Signal Object dot notation
+
+Many times when create Maps and Signals or Objects with reactive properties the compiler
+may make mistakes and not instrument the code properly. This is currently a known issue.
+The workaround in most cases is to extract the property using destructuring.
+
+```jsx
+const todo = { $text: "New Todo" };
+const $text = todo.$text; // This may not work
+const { $text } = todo; // This will work
+```
+
+---
+
+### Passing Signals around and getting the value when you need it
+
+In rezact passing a signal around is easy. But sometimes you may want to pass the value
+of the signal around instead of the signal itself. The example below shows a common
+mistake that you may run into and how to fix it.
+
+```tsx
+import { getVal } from "@rezact/rezact/signals";
+
+const $num = 5;
+
+function addOne(num: number) {
+  return num + 1;
+}
+
+// this will not work becuase $num is a signal
+addOne($num);
+
+// this will work
+addOne(getVal($num));
+```
+
+Of course if the function is expecting a signal, then you can just pass the signal directly.
+
+```tsx
+const $num = 5;
+
+// still need to use number type here as
+// typescript will complain otherwise
+// the key difference here is that we
+// have prefixed the argument with a $ sign
+// the rezact compiler will recognize this
+// and instrument the code properly
+function addOne($num: number) {
+  return $num + 1;
+}
+
+// this will work
+addOne($num);
+
+// this will not work
+addOne(getVal($num));
+```
+
+{/* <TestGetVal /> */}
+
+</div>
