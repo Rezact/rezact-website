@@ -14,16 +14,19 @@ const routes = [
   {
     path: "/",
     component: () => import("src/Pages/LandingPage"),
+    dataLoader: () => {} // COMING SOON!
     title: "Rezact",
   },
   {
     path: "/docs",
     component: () => import("src/Docs/PageOne.mdx"),
+    dataLoader: () => {} // COMING SOON!
     title: "Rezact",
   },
   {
     path: "/users/:userId",
     component: () => import("src/Pages/Users"),
+    dataLoader: () => {} // COMING SOON!
     title: "Rezact Users",
   },
 ];

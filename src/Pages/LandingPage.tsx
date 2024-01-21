@@ -2,6 +2,10 @@ import { elmRef } from "src/lib/utils";
 import Intro from "src/LandingSections/100_Intro.mdx";
 import Signals from "src/LandingSections/200_Signals.mdx";
 import Router from "src/LandingSections/300_Routing.mdx";
+import FormHandling from "src/LandingSections/400_FormHandling.mdx";
+import Validation from "src/LandingSections/500_Validation.mdx";
+import Masking from "src/LandingSections/600_InputMasking.mdx";
+
 import Counter from "src/components/Counter";
 
 const nav = [
@@ -15,12 +19,18 @@ const topSection: any = {};
 const introSectionRef: any = {};
 const signalsSectionRef: any = {};
 const routerSectionRef: any = {};
+const easyFormsSectionRef: any = {};
+const validationSectionRef: any = {};
+const maskingSectionRef: any = {};
 
 const sectionRefs = [
   topSection,
   introSectionRef,
   signalsSectionRef,
   routerSectionRef,
+  easyFormsSectionRef,
+  validationSectionRef,
+  maskingSectionRef,
 ];
 
 let scrollDebounce: any = null;
@@ -80,7 +90,7 @@ export function Page() {
   };
   return (
     <div
-      class="bg-zinc-900"
+      class="bg-zinc-900 pb-96"
       onMount={() => {
         document.head.parentElement!.className = "h-full bg-zinc-900";
         setTimeout(() => {
@@ -269,6 +279,46 @@ export function Page() {
           </div>
         </div>
       </div>
+
+      <div
+        id="easy-forms"
+        class="relative isolate pt-14"
+        ref={easyFormsSectionRef}
+      >
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-2xl text-white">
+              <FormHandling />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="validation"
+        class="relative isolate pt-14"
+        ref={validationSectionRef}
+      >
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-2xl text-white">
+              <Validation />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="masking" class="relative isolate pt-14" ref={maskingSectionRef}>
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-2xl text-white">
+              <Masking />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Last closing div */}
     </div>
   );
 }
