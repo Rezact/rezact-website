@@ -7,9 +7,7 @@ let $test = ["Jack", "Jill", "John", "Jane"];
 
 export function SignalsAnywhere() {
   return (
-    <>
-      <h1>Simple String List</h1>
-
+    <div class=" m-4 rounded bg-zinc-800 p-8">
       {$test.map(($name) => {
         ////////////////////////////////
         // DECLARE SIGNALS IN A LOOP! //
@@ -23,6 +21,6 @@ export function SignalsAnywhere() {
           </div>
         );
       })}
-    </>
+    </div>
   );
 }
