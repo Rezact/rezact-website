@@ -257,16 +257,6 @@ export function Page() {
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mdx mx-auto max-w-2xl text-white">
               <Intro />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="signals" class="relative isolate pt-14" ref={signalsSectionRef}>
-        <div class="py-24 sm:py-32 lg:pb-40">
-          <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <div class="mdx mx-auto max-w-2xl text-white">
-              <Signals />
               <Counter />
             </div>
           </div>
