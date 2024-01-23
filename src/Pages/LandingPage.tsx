@@ -1,6 +1,7 @@
 import { elmRef } from "src/lib/utils";
 import Intro from "src/LandingSections/100_Intro.mdx";
 import Signals from "src/LandingSections/200_Signals.mdx";
+import SignalsAnywhere from "src/LandingSections/250_SignalsAnywhere.mdx";
 import Router from "src/LandingSections/300_Routing.mdx";
 import FormHandling from "src/LandingSections/400_FormHandling.mdx";
 import Validation from "src/LandingSections/500_Validation.mdx";
@@ -18,6 +19,7 @@ const nav = [
 const topSection: any = {};
 const introSectionRef: any = {};
 const signalsSectionRef: any = {};
+const signalsAnywhereSectionRef: any = {};
 const routerSectionRef: any = {};
 const easyFormsSectionRef: any = {};
 const validationSectionRef: any = {};
@@ -27,6 +29,7 @@ const sectionRefs = [
   topSection,
   introSectionRef,
   signalsSectionRef,
+  signalsAnywhereSectionRef,
   routerSectionRef,
   easyFormsSectionRef,
   validationSectionRef,
@@ -265,6 +268,20 @@ export function Page() {
             <div class="mdx mx-auto max-w-2xl text-white">
               <Signals />
               <Counter />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        id="signals-anywhere"
+        class="relative isolate pt-14"
+        ref={signalsAnywhereSectionRef}
+      >
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-2xl text-white">
+              <SignalsAnywhere />
             </div>
           </div>
         </div>

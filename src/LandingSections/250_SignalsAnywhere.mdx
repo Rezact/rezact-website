@@ -1,0 +1,36 @@
+import { SignalsAnywhere } from "src/components/SignalsAnywhere";
+
+# No Hooks or Rules
+
+No hook rules... create and use signals ANYWHERE in your code.
+
+```jsx
+////////////////////////////////////////////
+// DECLARE SIGNALS OUTSIDE OF COMPONENTS! //
+////////////////////////////////////////////
+let $test = ["Jack", "Jill", "John", "Jane"];
+
+export function SignalsAnywhere() {
+  return (
+    <>
+      <h1>Simple String List</h1>
+
+      {$test.map(($name) => {
+        ////////////////////////////////
+        // DECLARE SIGNALS IN A LOOP! //
+        ////////////////////////////////
+        const $upperName = $name.toUpperCase();
+
+        return (
+          <div>
+            <input value={$name} />
+            <p>{$upperName}</p>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+```
+
+<SignalsAnywhere />
