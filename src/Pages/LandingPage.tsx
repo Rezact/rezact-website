@@ -132,6 +132,8 @@ export function Page() {
                 class="h-8 w-auto"
                 src="/rezact-logo.svg"
                 alt="Rezact Logo"
+                width="29"
+                height="32"
               />
               Rezact
             </a>
@@ -195,6 +197,8 @@ export function Page() {
                 class="h-8 w-auto"
                 src="/rezact-logo.svg"
                 alt="Rezact Logo"
+                width="29"
+                height="32"
               />
               Rezact
             </a>
@@ -241,7 +245,13 @@ export function Page() {
         <div class="py-6 sm:py-6 lg:pb-40">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class=" text-center">
-              <img src="/rezact-logo.svg" alt="Rezact Logo" class="m-auto" />
+              <img
+                src="/rezact-logo.svg"
+                alt="Rezact Logo"
+                class="m-auto"
+                width="454"
+                height="493"
+              />
               <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">
                 Rezact
               </h1>
