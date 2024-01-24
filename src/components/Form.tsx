@@ -2,6 +2,7 @@ import { getFormData } from "@rezact/rezact/formHelper";
 
 interface FormProps {
   onSubmit: (data: any) => void;
+  class?: string;
   children?: any;
 }
 
@@ -15,5 +16,9 @@ export function Form(props: FormProps) {
     props.onSubmit(data);
     frm.reset();
   };
-  return <form onSubmit={submitFunc}>{props.children}</form>;
+  return (
+    <form onSubmit={submitFunc} class={props.class}>
+      {props.children}
+    </form>
+  );
 }
