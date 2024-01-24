@@ -10,7 +10,6 @@ import Masking from "src/LandingSections/600_InputMasking.mdx";
 import Counter from "src/components/Counter";
 import { Btn } from "src/components/Buttons";
 import { Alert } from "src/components/Modal";
-import { LightHouse } from "src/components/LightHouse";
 
 const nav = [
   { title: "Intro", href: "#top" },
