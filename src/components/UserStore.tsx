@@ -1,8 +1,9 @@
-import { logIn, logOut, userState } from "src/lib/userState";
+import { logIn, logOut, userStore } from "src/lib/userStore";
 import { Btn } from "./Buttons";
+import { Form } from "./Form";
 
-export function UserState() {
-  const { $isLoggedIn } = userState;
+export function UserStore() {
+  const { $isLoggedIn } = userStore;
 
   return (
     <div class="m-4 rounded-lg bg-slate-300 p-8 drop-shadow-2xl">
@@ -12,7 +13,7 @@ export function UserState() {
 }
 
 function UserProfile() {
-  const { $userName, $email } = userState;
+  const { $userName, $email } = userStore;
 
   return (
     <div>
@@ -27,12 +28,12 @@ function UserProfile() {
 function LoginForm() {
   const cls = "rounded p-2 m-2";
   return (
-    <form onSubmit={logIn} class="flex flex-col">
+    <Form onSubmit={logIn} class="flex flex-col">
       <input type="text" name="username" placeholder="User Name" class={cls} />
       <input type="text" name="email" placeholder="Email" class={cls} />
       <Btn type="submit" class="m-2" size="xl">
         Login
       </Btn>
-    </form>
+    </Form>
   );
 }

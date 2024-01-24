@@ -2,6 +2,7 @@ import { GitHubIcon } from "./components/icons";
 import { elmRef, scrollWatcher } from "./lib/utils";
 
 import "./styles.css";
+import "./highlight.css";
 
 const nav = [
   { title: "Intro", icon: () => {}, href: "/docs", route: "/docs" },

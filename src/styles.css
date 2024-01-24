@@ -68,7 +68,7 @@ html {
   @apply mb-2;
 }
 
-.mdx a {
+.mdx a:not(.rz-btn) {
   @apply text-blue-600 underline;
 }
 

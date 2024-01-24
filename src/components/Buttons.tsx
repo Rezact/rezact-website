@@ -1,4 +1,4 @@
-interface BtnProps {
+interface BaseBtnProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   color?:
     | "primary"
@@ -9,15 +9,25 @@ interface BtnProps {
     | "info"
     | "light"
     | "dark";
-  onClick?: any;
   type?: "button" | "submit" | "reset";
   class?: string;
   children?: any;
 }
 
-export function Btn(props: BtnProps) {
+interface BtnPropsWithHref extends BaseBtnProps {
+  href?: string;
+  onClick?: never;
+}
+
+interface BtnPropsWithOnClick extends BaseBtnProps {
+  onClick?: any;
+  href?: never;
+}
+
+export function Btn(props: BtnPropsWithHref | BtnPropsWithOnClick) {
   let { size, color, onClick, type } = props;
-  onClick = onClick || (() => {});
+  props.onClick = props.onClick || (() => {});
+  props.class = props.class || "";
   color = color || "primary";
   size = size || "md";
   type = type || "button";
@@ -49,8 +59,15 @@ export function Btn(props: BtnProps) {
   const classes =
     sizes[size] +
     colors[color] +
-    " focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 " +
+    " focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 rz-btn " +
     props.class;
+
+  if (props.href)
+    return (
+      <a href={props.href} class={classes}>
+        {props.children}
+      </a>
+    );
 
   return (
     <button type={type} onClick={onClick} class={classes}>

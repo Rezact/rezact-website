@@ -1,13 +1,16 @@
 import { elmRef } from "src/lib/utils";
 import Intro from "src/LandingSections/100_Intro.mdx";
-import Signals from "src/LandingSections/200_Signals.mdx";
-import SignalsAnywhere from "src/LandingSections/250_SignalsAnywhere.mdx";
+import SignalsAnywhere from "src/LandingSections/200_SignalsAnywhere.mdx";
+import Stores from "src/LandingSections/250_Stores.mdx";
 import Router from "src/LandingSections/300_Routing.mdx";
 import FormHandling from "src/LandingSections/400_FormHandling.mdx";
 import Validation from "src/LandingSections/500_Validation.mdx";
 import Masking from "src/LandingSections/600_InputMasking.mdx";
 
 import Counter from "src/components/Counter";
+import { Btn } from "src/components/Buttons";
+import { Alert } from "src/components/Modal";
+import { LightHouse } from "src/components/LightHouse";
 
 const nav = [
   { title: "Intro", href: "#top" },
@@ -18,8 +21,8 @@ const nav = [
 
 const topSection: any = {};
 const introSectionRef: any = {};
-const signalsSectionRef: any = {};
 const signalsAnywhereSectionRef: any = {};
+const storesSectionRef: any = {};
 const routerSectionRef: any = {};
 const easyFormsSectionRef: any = {};
 const validationSectionRef: any = {};
@@ -28,8 +31,8 @@ const maskingSectionRef: any = {};
 const sectionRefs = [
   topSection,
   introSectionRef,
-  signalsSectionRef,
   signalsAnywhereSectionRef,
+  storesSectionRef,
   routerSectionRef,
   easyFormsSectionRef,
   validationSectionRef,
@@ -71,6 +74,19 @@ function LandingScroll() {
     }
   }, 250);
 }
+
+const compareToReact = async () => {
+  await Alert(
+    <div>
+      <img
+        src="/SignalsAnywhereReact.webp"
+        alt="Signals"
+        width="464"
+        height="576"
+      />
+    </div>,
+  );
+};
 
 export function Page() {
   const mobileSidebarParentRef = new elmRef();
@@ -272,6 +288,22 @@ export function Page() {
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mdx mx-auto max-w-2xl text-white">
               <SignalsAnywhere />
+              <Btn onClick={compareToReact} size="xl" class=" m-auto table">
+                Compare to React
+              </Btn>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="stores" class="relative isolate pt-14" ref={storesSectionRef}>
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-2xl text-white">
+              <Stores />
+              <Btn href="/docs/stores" size="xl" class=" m-auto table">
+                Show me more
+              </Btn>
             </div>
           </div>
         </div>
@@ -324,6 +356,16 @@ export function Page() {
           </div>
         </div>
       </div>
+
+      {/* <div id="lighthouse" class="relative isolate pt-14">
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-2xl text-white">
+              <LightHouse />
+            </div>
+          </div>
+        </div>
+      </div> */}
 
       {/* Last closing div */}
     </div>
