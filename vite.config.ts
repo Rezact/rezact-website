@@ -9,13 +9,45 @@ import { resolve } from "path";
 import * as fs from "fs";
 import * as path from "path";
 import { routes } from "./src/routes";
+const isBuild = process.env.npm_lifecycle_event === "build";
+
+let rollupInput = {};
+if (isBuild) {
+  const indexFilePath = resolve(__dirname, "index.html");
+  const _idxFileText = fs.readFileSync(indexFilePath, "utf-8");
+
+  const mappedRoutes = routes.map((route) => {
+    const htmlFilePath = __dirname + route.path + ".html";
+    if (route.path !== "/" && !route.path.includes(":")) {
+      let idxFileText = _idxFileText;
+      writeToFileSync(htmlFilePath, idxFileText);
+      rollupInput[route.path.replace(/\//g, "")] = resolve(htmlFilePath);
+    }
+  });
+}
 
 function writeToFileSync(filePath, content) {
   fs.mkdirSync(path.dirname(filePath), { recursive: true });
   fs.writeFileSync(filePath, content);
 }
 
-function rezactBuild() {
+function deleteFileAndEmptyDirs(filePath) {
+  // Delete the file
+  fs.unlinkSync(filePath);
+
+  // Recursively remove parent directories if empty
+  let dirPath = path.dirname(filePath);
+  while (dirPath !== path.resolve(dirPath, "..")) {
+    if (fs.readdirSync(dirPath).length === 0) {
+      fs.rmdirSync(dirPath);
+      dirPath = path.resolve(dirPath, "..");
+    } else {
+      break;
+    }
+  }
+}
+
+function rezactBuild({ routes }) {
   return {
     name: "rezact-build",
 
@@ -32,16 +64,18 @@ function rezactBuild() {
       const mappedRoutes = routes.map((route) => {
         const path = route.component.toString().split(/["'`]/)[1];
         const resolvedPath = resolve(__dirname, path);
-        const htmlFilePath = __dirname + "/dist" + route.path + ".html";
+        const htmlFilePath = __dirname + route.path + ".html";
         if (route.path !== "/" && !route.path.includes(":")) {
           let idxFileText = _idxFileText;
-          writeToFileSync(htmlFilePath, idxFileText);
+          deleteFileAndEmptyDirs(htmlFilePath);
         }
       });
       // fs.writeFileSync("bundle.json", JSON.stringify(bundle, null, 2));
     },
   };
 }
+
+console.log("rollupInput", rollupInput);
 
 export default {
   resolve: {
@@ -54,6 +88,12 @@ export default {
     target: "esnext",
     modulePreload: {
       polyfill: false,
+    },
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        ...rollupInput,
+      },
     },
   },
   esbuild: {
@@ -74,6 +114,6 @@ export default {
     }),
     rezact(),
     rezact_mdx(),
-    rezactBuild(),
+    rezactBuild({ routes }),
   ],
 };
