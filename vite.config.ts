@@ -81,7 +81,7 @@ function rezactBuild({ routes }) {
           if (importPath.startsWith("assets/main-")) return;
           if (dedupePreload[importPath]) return;
           dedupePreload[importPath] = true;
-          const preload = `<link rel="modulepreload" href="${importPath}" />\n`;
+          const preload = `<link rel="modulepreload" href="/${importPath}" />\n`;
           preloads += preload;
         });
 
