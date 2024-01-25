@@ -5,6 +5,7 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import rehypeHighlight from "rehype-highlight";
 import mdx from "@mdx-js/rollup";
+import { resolve } from "path";
 
 export default {
   resolve: {
@@ -17,6 +18,12 @@ export default {
     target: "esnext",
     modulePreload: {
       polyfill: false,
+    },
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        nested: resolve(__dirname, "404.html"),
+      },
     },
   },
   esbuild: {
