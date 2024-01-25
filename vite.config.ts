@@ -75,7 +75,7 @@ function rezactBuild({ routes }) {
         const routePathMapName = (route.path.slice(1) || "index") + ".html";
         let preloads = "";
         const dedupePreload = {};
-        const preload = `<link rel="modulepreload" href="${routeChunk.fileName}" />\n`;
+        const preload = `<link rel="modulepreload" href="/${routeChunk.fileName}" />\n`;
         preloads += preload;
         routeChunk.imports.forEach((importPath) => {
           if (importPath.startsWith("assets/main-")) return;
