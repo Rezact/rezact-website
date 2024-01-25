@@ -11,7 +11,7 @@ import * as path from "path";
 import { routes } from "./src/routes";
 const isBuild = process.env.npm_lifecycle_event === "build";
 
-let rollupInput = {};
+let rollupInput = { main: resolve(__dirname, "index.html") };
 if (isBuild) {
   const indexFilePath = resolve(__dirname, "index.html");
   const _idxFileText = fs.readFileSync(indexFilePath, "utf-8");
@@ -47,6 +47,8 @@ function deleteFileAndEmptyDirs(filePath) {
   }
 }
 
+function findAllNestedImports(filePath) {}
+
 function rezactBuild({ routes }) {
   return {
     name: "rezact-build",
@@ -66,16 +68,38 @@ function rezactBuild({ routes }) {
         const resolvedPath = resolve(__dirname, path);
         const htmlFilePath = __dirname + route.path + ".html";
         if (route.path !== "/" && !route.path.includes(":")) {
-          let idxFileText = _idxFileText;
           deleteFileAndEmptyDirs(htmlFilePath);
         }
+
+        const routeChunk = bundleMapped[resolvedPath];
+        const routePathMapName = (route.path.slice(1) || "index") + ".html";
+        let preloads = "";
+        const dedupePreload = {};
+        const preload = `<link rel="modulepreload" href="${routeChunk.fileName}" />\n`;
+        preloads += preload;
+        routeChunk.imports.forEach((importPath) => {
+          if (importPath.startsWith("assets/main-")) return;
+          if (dedupePreload[importPath]) return;
+          dedupePreload[importPath] = true;
+          const preload = `<link rel="modulepreload" href="${importPath}" />\n`;
+          preloads += preload;
+        });
+
+        const modifiedSource = bundle[routePathMapName].source.replace(
+          "<!-- PRELOAD HERE -->",
+          preloads,
+        );
+
+        const outRoutePath = route.path === "/" ? "/index" : route.path;
+        const outputHtmlFilePath = __dirname + "/dist" + outRoutePath + ".html";
+
+        writeToFileSync(outputHtmlFilePath, modifiedSource);
       });
+
       // fs.writeFileSync("bundle.json", JSON.stringify(bundle, null, 2));
     },
   };
 }
-
-console.log("rollupInput", rollupInput);
 
 export default {
   resolve: {
@@ -91,7 +115,6 @@ export default {
     },
     rollupOptions: {
       input: {
-        main: resolve(__dirname, "index.html"),
         ...rollupInput,
       },
     },
