@@ -22,7 +22,7 @@ export default {
     rollupOptions: {
       input: {
         main: resolve(__dirname, "index.html"),
-        nested: resolve(__dirname, "404.html"),
+        docs: resolve(__dirname, "docs.html"),
       },
     },
   },
