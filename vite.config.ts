@@ -9,7 +9,20 @@ import { resolve } from "path";
 import * as fs from "fs";
 import * as path from "path";
 import { routes } from "./src/routes";
+import { GlobalRegistrator } from "@happy-dom/global-registrator";
+import DetachedWindowAPI from "happy-dom/lib/window/DetachedWindowAPI";
 const isBuild = process.env.npm_lifecycle_event === "build";
+
+async function rezactRendered() {
+  return new Promise((resolve) => {
+    const renderedFunc = (e) => {
+      document.removeEventListener("rezact-rendered", renderedFunc);
+      resolve(e);
+    };
+
+    document.addEventListener("rezact-rendered", renderedFunc);
+  });
+}
 
 let rollupInput = { main: resolve(__dirname, "index.html") };
 if (isBuild) {
@@ -53,17 +66,26 @@ function rezactBuild({ routes }) {
   return {
     name: "rezact-build",
 
-    writeBundle(options, bundle) {
-      const indexFilePath = resolve(__dirname, "index.html");
-      const _idxFileText = fs.readFileSync(indexFilePath, "utf-8");
+    async writeBundle(options, bundle) {
+      GlobalRegistrator.register({
+        url: `http://localhost:3000/`,
+      });
+      const { happyDOM }: { happyDOM: DetachedWindowAPI } = window as any;
+      window.scrollTo = () => {};
+      document.body.innerHTML = `<div id="app"></div>`;
 
+      let mainEntryJS = "";
       const bundleMapped = {};
       Object.keys(bundle).forEach((key) => {
         const path = bundle[key].facadeModuleId?.replace(/\.(tsx|jsx)$/, "");
         if (path) bundleMapped[path] = bundle[key];
       });
 
-      const mappedRoutes = routes.map((route) => {
+      let mainModule = null;
+
+      // convert this map into a for loop
+      for (const route of routes) {
+        console.log("rendering", route.path);
         const path = route.component.toString().split(/["'`]/)[1];
         const resolvedPath = resolve(__dirname, path);
         const htmlFilePath = __dirname + route.path + ".html";
@@ -78,27 +100,53 @@ function rezactBuild({ routes }) {
         const preload = `<link rel="modulepreload" href="/${routeChunk.fileName}" />\n`;
         preloads += preload;
         routeChunk.imports.forEach((importPath) => {
-          if (importPath.startsWith("assets/main-")) return;
+          if (importPath.startsWith("assets/main-"))
+            return (mainEntryJS = importPath);
           if (dedupePreload[importPath]) return;
           dedupePreload[importPath] = true;
           const preload = `<link rel="modulepreload" href="/${importPath}" />\n`;
           preloads += preload;
         });
 
-        const modifiedSource = bundle[routePathMapName].source.replace(
+        const _modifiedSource = bundle[routePathMapName].source.replace(
           "<!-- PRELOAD HERE -->",
           preloads,
+        );
+
+        if (mainModule === null) {
+          const fullMainPath = __dirname + "/dist/" + mainEntryJS;
+          mainModule = await import(fullMainPath);
+          await rezactRendered();
+        } else {
+          const anchor = document.createElement("a");
+          anchor.href = route.path;
+          document.body.appendChild(anchor);
+          anchor.click();
+          await rezactRendered();
+          await delay(100);
+        }
+
+        const app = document.getElementById("app") as HTMLElement;
+        const modifiedSource = _modifiedSource.replace(
+          "<!-- PRE RENDER HERE -->",
+          app.innerHTML,
         );
 
         const outRoutePath = route.path === "/" ? "/index" : route.path;
         const outputHtmlFilePath = __dirname + "/dist" + outRoutePath + ".html";
 
         writeToFileSync(outputHtmlFilePath, modifiedSource);
-      });
-
+      }
+      happyDOM.abort();
+      GlobalRegistrator.unregister();
       // fs.writeFileSync("bundle.json", JSON.stringify(bundle, null, 2));
+      return;
     },
   };
+}
+
+async function delay(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default {

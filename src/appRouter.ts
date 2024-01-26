@@ -8,6 +8,4 @@ router.addRoute("/404", FourOhFour);
 
 router.addRoutesFromConfig(routes);
 
-console.log("router", routes[0].component.toString().split(/["'`]/)[1]);
-
 export { router };
