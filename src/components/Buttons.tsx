@@ -12,6 +12,7 @@ interface BaseBtnProps {
   type?: "button" | "submit" | "reset";
   class?: string;
   children?: any;
+  id?: string;
 }
 
 interface BtnPropsWithHref extends BaseBtnProps {
@@ -25,7 +26,7 @@ interface BtnPropsWithOnClick extends BaseBtnProps {
 }
 
 export function Btn(props: BtnPropsWithHref | BtnPropsWithOnClick) {
-  let { size, color, onClick, type } = props;
+  let { size, color, onClick, type, id } = props;
   props.onClick = props.onClick || (() => {});
   props.class = props.class || "";
   color = color || "primary";
@@ -64,13 +65,13 @@ export function Btn(props: BtnPropsWithHref | BtnPropsWithOnClick) {
 
   if (props.href)
     return (
-      <a href={props.href} class={classes}>
+      <a id={id} href={props.href} class={classes}>
         {props.children}
       </a>
     );
 
   return (
-    <button type={type} onClick={onClick} class={classes}>
+    <button id={id} type={type} onClick={onClick} class={classes}>
       {props.children}
     </button>
   );

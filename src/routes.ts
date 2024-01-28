@@ -5,6 +5,11 @@ export const routes = [
     title: "Rezact",
   },
   {
+    path: "/counter-test",
+    component: () => import("src/Pages/CounterTest"),
+    title: "Rezact - Counter Test",
+  },
+  {
     path: "/docs",
     component: () => import("src/Docs/100_Intro.mdx"),
     title: "Rezact - Intro",
