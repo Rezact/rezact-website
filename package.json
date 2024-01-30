@@ -1,8 +1,7 @@
 {
-  "name": "rezact-quick-start",
+  "name": "appsx",
   "private": true,
-  "version": "0.0.0",
-  "license": "MIT",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,13 +9,20 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.15",
-    "postcss": "^8.4.30",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "@happy-dom/global-registrator": "^13.3.1",
+    "autoprefixer": "^10.4.16",
+    "happy-dom": "npm:zachlankton-happy-dom@13.3.2",
+    "postcss": "^8.4.31",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "3.4.0",
+    "typescript": "*",
+    "vite": "5.0.12"
   },
   "dependencies": {
-    "@rezact/rezact": "1.0.15-beta.4"
+    "@rezact/rezact": "v1.0.15-beta.53",
+    "@tailwindcss/forms": "^0.5.7",
+    "boxicons": "^2.1.4",
+    "monaco-editor": "^0.45.0"
   }
 }

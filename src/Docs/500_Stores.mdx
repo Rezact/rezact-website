@@ -1,0 +1,231 @@
+import { MainLayout } from "src/Layout";
+import { UserStore } from "src/components/UserStore";
+
+export const Layout = MainLayout;
+
+<div class="mdx max-w-3xl  mb-48">
+# Stores
+
+### Step 1: Setup Rezact Store
+
+```javascript
+export const userStore: any = {
+  $isLoggedIn: false,
+  $userName: "",
+  $email: "",
+};
+
+export function logIn(data) {
+  userStore.$isLoggedIn = true;
+  userStore.$userName = data.username;
+  userStore.$email = data.email;
+}
+
+export function logOut() {
+  userStore.$isLoggedIn = false;
+  userStore.$userName = "";
+  userStore.$email = "";
+}
+```
+
+### Step 2: Use the Store
+
+```jsx
+import { logIn, logOut, userStore } from "src/lib/userStore";
+import { Btn } from "./Buttons";
+import { Form } from "./Form";
+
+export function UserStore() {
+  const { $isLoggedIn } = userStore;
+
+  return (
+    <div class="m-4 rounded-lg bg-slate-300 p-8 drop-shadow-2xl">
+      {$isLoggedIn ? <UserProfile /> : <LoginForm />}
+    </div>
+  );
+}
+
+function UserProfile() {
+  const { $userName, $email } = userStore;
+
+  return (
+    <div>
+      <p>
+        Welcome, {$userName} {$email}
+      </p>
+      <Btn onClick={logOut}>Logout</Btn>
+    </div>
+  );
+}
+
+function LoginForm() {
+  const cls = "rounded p-2 m-2";
+  return (
+    <Form onSubmit={logIn} class="flex flex-col">
+      <input type="text" name="username" placeholder="User Name" class={cls} />
+      <input type="text" name="email" placeholder="Email" class={cls} />
+      <Btn type="submit" class="m-2" size="xl">
+        Login
+      </Btn>
+    </Form>
+  );
+}
+```
+
+<UserStore />
+
+# That's it!
+
+- No need to to install any extra dependencies.
+- No need to learn any new syntax.
+- No need to learn any new terminology.
+- No Providers
+- No Consumers
+- No Reducers
+- No Actions
+- No Dispatchers
+- No connecting state to a component
+- No mapping state to props
+
+</div>
+
+<div class="mdx max-w-3xl bg-red-300 p-4 rounded-lg">
+
+# Compared to Redux/React
+
+### Step 1: Set Up Redux Store
+
+First, you need to set up the Redux store. This store will hold the application's state.
+
+```javascript
+import { createStore } from "redux";
+import rootReducer from "./reducers"; // We will create this file in the next step
+
+const store = createStore(rootReducer);
+export default store;
+```
+
+### Step 2: Create Actions and Reducers
+
+Next, define actions and reducers. Actions are payloads of information that send data from your application to your store. Reducers specify how the application's state changes in response to actions.
+
+#### Actions (actions.js)
+
+```javascript
+// Action Types
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
+
+// Action Creators
+export const logIn = (userData) => ({
+  type: LOGIN,
+  payload: userData,
+});
+
+export const logOut = () => ({
+  type: LOGOUT,
+});
+```
+
+#### Reducers (reducers.js)
+
+```javascript
+import { LOGIN, LOGOUT } from "./actions";
+
+const initialState = {
+  isLoggedIn: false,
+  user: null,
+};
+
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOGIN:
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: action.payload,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export default rootReducer;
+```
+
+### Step 3: Provide Redux Store to React
+
+Now, you need to provide the Redux store to your React application using the `Provider` component from `react-redux`.
+
+```javascript
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from "./store"; // Import the store you created
+import App from "./App"; // Your main App component
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root"),
+);
+```
+
+### Step 4: Connect React Components
+
+Finally, connect your React components to the Redux store using `connect()` from `react-redux`.
+
+#### ExampleComponent.jsx
+
+```javascript
+import React from "react";
+import { connect } from "react-redux";
+import { logIn, logOut } from "./actions";
+
+const ExampleComponent = ({ isLoggedIn, user, logIn, logOut }) => {
+  const handleLogin = () => {
+    // Example login logic
+    const userData = { name: "John Doe" };
+    logIn(userData);
+  };
+
+  const handleLogout = () => {
+    logOut();
+  };
+
+  return (
+    <div>
+      {isLoggedIn ? (
+        <div>
+          <p>Welcome, {user.name}</p>
+          <button onClick={handleLogout}>Logout</button>
+        </div>
+      ) : (
+        <button onClick={handleLogin}>Login</button>
+      )}
+    </div>
+  );
+};
+
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.isLoggedIn,
+  user: state.user,
+});
+
+const mapDispatchToProps = {
+  logIn,
+  logOut,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExampleComponent);
+```
+
+</div>
+```

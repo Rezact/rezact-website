@@ -1,0 +1,63 @@
+import { MainLayout } from "src/Layout";
+
+export const Layout = MainLayout;
+
+<div class="mdx max-w-2xl">
+
+# Effects
+
+## Reactive Computations
+
+Rezact allows you to derive values from reactive variables. These derived values are themselves reactive and will update whenever their dependencies change.
+
+```jsx
+let $count = 0;
+let $doubled = $count * 2;
+
+// ============================================
+
+let $todos = [
+  { $text: "Learn Rezact", $completed: false },
+  { $text: "Build an app", $completed: true },
+];
+
+let $filter = "all";
+let $filteredTodos = $todos.filter((todo) => {
+  if ($filter === "all") return true;
+  if ($filter === "completed") return todo.$completed;
+  if ($filter === "todo") return !todo.$completed;
+});
+```
+
+In the example above, $filteredTodos will automatically update whenever $todos changes.
+
+## Reactive Statements
+
+Rezact uses a concise and intuitive way to respond to changes in reactive data: reactive statements. These statements automatically execute whenever the data they depend on changes.
+
+A reactive statement starts with the `$:` label, followed by the statement you want to execute:
+
+```jsx
+$: console.log(`the count is ${count}`);
+
+$: {
+  console.log(`the count is ${count}`);
+  console.log(`this will also be logged whenever count changes`);
+}
+
+// ========================================
+// hint: this is effectively a useEffect (react) or $effect (svelte 5)
+
+let $dep1 = "someValue";
+let $dep2 = "someValueAgain;";
+$: {
+  $dep1;
+  $dep2;
+  console.log("This effect runs whenever $dep1 or $dep2 change");
+}
+
+$dep1 = "new Dep Value triggers the effect above";
+```
+
+</div>
+```

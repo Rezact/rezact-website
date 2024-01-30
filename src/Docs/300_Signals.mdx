@@ -1,0 +1,336 @@
+import { MainLayout } from "src/Layout";
+import { Todo } from "src/components/Todo";
+import { Todo100 } from "src/components/Todo_100";
+import { Todo200 } from "src/components/Todo_200";
+import { Todo300 } from "src/components/Todo_300";
+import { Todo400 } from "src/components/Todo_400";
+
+export const Layout = MainLayout;
+
+<div class="mdx max-w-3xl pb-[80vh]">
+
+# Signals (Reactive Variables)
+
+Rezact offers a unique approach to reactivity, simplifying state management and component updates. This section will delve into the core principles of Rezact's reactivity system.
+
+## 1. Reactive Variables
+
+In Rezact, reactive variables are prefixed with a `$` sign. These variables are special because any changes to them will automatically trigger updates in the UI.
+
+```jsx
+let $count = 0;
+
+let $todos = [
+  { $text: "Learn Rezact", $completed: false },
+  { $text: "Build an app", $completed: true },
+];
+```
+
+Unlike traditional state management systems where state changes are explicitly triggered, in Rezact, simply modifying the value of a reactive variable is enough. Also notice that a reactive variable can be an array of objects with reactive properties as shown above.
+
+## 2. Direct Data Mutation
+
+One of the standout features of Rezact is its encouragement of direct data mutations. While many modern frameworks advocate for immutability, Rezact takes a different approach.
+
+```jsx
+// These will trigger a UI update
+
+$count++;
+
+$todos.push({ $text: "This is awesome!", $completed: false });
+```
+
+<hr class=" block p-8" />
+
+# Simple Todo Tutorial
+
+Let's demonstrate signals by building a todo example:
+
+```jsx
+let $todos: any = [
+  { $text: "Learn Rezact", $completed: false },
+  { $text: "Learn TypeScript", $completed: true },
+  { $text: "Build something awesome", $completed: false },
+];
+
+export function Todo100() {
+  return (
+    <div class="m-4 rounded-lg bg-zinc-300 p-8 drop-shadow-xl">
+      <h1>Todo List</h1>
+      <p>{$todos.length} Todos</p>
+
+      {$todos.map(($todo, $idx) => (
+        <TodoItem $todo={$todo} $idx={$idx} />
+      ))}
+    </div>
+  );
+}
+
+function TodoItem({ $todo, $idx }) {
+  const $completedStyle = $todo.$completed
+    ? "text-decoration: line-through;"
+    : "";
+
+  return (
+    <div style={$completedStyle} class="max-w-96">
+      <span>
+        {$idx + 1} - {$todo.$text}
+      </span>
+
+      <input type="checkbox" class="float-right" checked={$todo.$completed} />
+    </div>
+  );
+}
+
+```
+
+### Output:
+
+<Todo100 />
+
+There are a couple subtle things happening in this example that need to be
+broke down.
+
+The very first thing you will notice is that the array of todo objects is
+declared at the top of the module. In rezact, this is referred to as
+**Module Level State.**
+
+You could also declare the array inside the `Todo100` component as you
+would when using `useState` in React. This would be called **Component Level State.**
+
+More on all of that in a moment...
+
+The last subtle thing in the example above is the following code from the
+`TodoItem` component:
+
+```jsx
+const $completedStyle = $todo.$completed
+  ? "text-decoration: line-through;"
+  : "";
+```
+
+At first this seems pretty straightforward, but you may be wondering why we
+bother creating a new signal to store the results. Those familiar with React
+understand that entire component functions will rerun when state changes. In
+contrast frameworks like SolidJS and Sveltes have component functions that will
+only run **once** when first rendered. Rezact is the same way.
+
+This is why assigning the results to a signal are important. There are 2 things
+happening here.
+
+- Rezact's compiler will detect any assignments to a signal that depend on other
+  signals. In this case, the compiler instruments the instruction to track when
+  `$todo.$completed` changes. When this happens the instrumented code will rerun
+  the statement and assign the results to `$completedStyle`
+- Rezact's runtime detects when signals are being used in the JSX and subscribes
+  to changes so that it can update the DOM when the signal values update/change.
+  In this case, when `$todo.$completed` is updated, so will `$completedStyle`.
+  The runtime will handle updating the `style` attribute of the `span` element.
+
+The rest of the example should feel pretty familiar for people experienced with
+JSX frameworks.
+
+Now back to state...
+
+### Signals and State
+
+In Rezact, `Signals` are just plain javascript objects. To be precise they are
+instances of the Signal class. It is because of this, they can be declared
+anywhere and passed around freely through function arguments or component props.
+
+This turns out to be a very valuable and powerful feature as there are no
+**hook rules** that must be observed (like when using `useState` in React).
+This makes everything much simpler and reduces cognitive overhead.
+
+The only thing that really needs to be kept in mind is that any variable or
+object property that is prefixed with a `$` sign is a Signal in Rezact.
+There are a few "Gotchas" that come with this and they are documented
+are the [Gotchas](/docs/gotchas) section of the docs.
+
+### Module Level State
+
+Signals declared at the module level have a nice property in that they persist
+across renders of any components declared inside the module. This works great
+for Singletons where you want this behavior. To demonstrate this try changing
+a couple items in the todo list and navigating to another page and coming back.
+Keep in mind that if you refresh the page the module will be reloaded and state
+will be lost. But navigating within the site using the sidebar or header will
+maintain any state of items in the todo list because this is the nature of
+**Single Page Applications.**
+
+If you haven't guessed it already, this enables state stores without any extra
+work... [Rezact Stores](/docs/stores) are simply Signals declared
+and exported from a module.
+
+### Component Level State
+
+For components that are meant to be reused, it is best to declare signals inside
+the component function as you would inside a regular react component. This
+means the state will be created new everytime a component is mounted. This
+behaves in all the ways that you would expect state declared in a component to
+behave.
+
+---
+
+## Mutating Signals
+
+Following our todo tutorial, how do we add new todos?
+
+Below we show the code needed to add a new todo to the list.
+
+```diff
++import { Btn } from "./Buttons";
++import { Form } from "./Form";
++import { Input } from "./ValidatorInput";
++import { $todos } from "./todoData";
+
+export function Todo200() {
++  const addTodo = (data) => {
++    $todos.push({ $text: data.newTodo, $completed: false });
++  };
+
+  return (
+    <div class="m-4 rounded-lg bg-zinc-300 p-8 drop-shadow-xl">
+      <h1>Todo List</h1>
+      <p>{$todos.length} Todos</p>
+
+      {$todos.map(($todo, $idx) => (
+        <TodoItem $todo={$todo} $idx={$idx} />
+      ))}
+
++      <Form onSubmit={addTodo}>
++        <Input placeholder="Add Todo" name="newTodo" required />
++        <Btn type="submit" class="mt-2 w-full">
++          Add
++        </Btn>
++      </Form>
+    </div>
+  );
+}
+```
+
+<Todo200 />
+
+Go ahead and try it out!
+
+Wanna know the fun part??
+
+The todo you just added here is available in the first todo list we created earlier!
+
+Go ahead, scroll up, I dare you!
+
+To be completely fair, we have pulled out the data and placed it in its own module ([store](/docs/stores)).
+This is because we want to demonstrate how to use the data in multiple places.
+But the point is that the data is available anywhere in the app and [Rezact stores](/docs/stores) make this easy.
+
+And also to be even more fair, we are hiding some lower level details in the `Form`, `Btn` and `Input` components.
+But the main focus is on the `addTodo` function. This is where the magic happens.
+
+You can see all the source code in the repo for this website. All of it is completely approachable and easy to understand.
+
+Probably the most important take away is that with rezact we don't need to make copies of data just so we can
+satisfy a runtime comparison that would trigger a UI update. This is a huge win for performance and simplicity.
+
+With Rezact, we can just mutate the data directly and the UI will update automatically.
+
+---
+
+## Deleting Todos
+
+Ok, let's add a delete button.
+
+```diff
+function TodoItem({ $todo, $idx }) {
+  const $completedStyle = $todo.$completed
+    ? "text-decoration: line-through;"
+    : "";
+
++  const deleteTodo = (todo) => {
++    $todos.deleteValue(todo);
++  };
+
+  let $idxPlusOne = $idx + 1;
+
+  return (
+    <div style={$completedStyle} class="max-w-96 leading-7">
+      <span>
+        {$idxPlusOne} - {$todo.$text}
+      </span>
+
++     <Btn onClick={() => deleteTodo($todo)}>X</Btn>
+
+      <input type="checkbox" class="float-right" checked={$todo.$completed} />
+    </div>
+  );
+}
+```
+
+<Todo300 />
+
+Easy right? The `.deleteValue` method is a helper method that is available on all signals that are maps/arrays.
+It's basically a wrapper around the native `splice` method. You could also do the following:
+
+```jsx
+const deleteTodo = (todo) => {
+  const idx = $todos.indexOf(todo);
+  $todos.splice(idx, 1);
+};
+```
+
+---
+
+## Filtering Todos
+
+```diff
++function Radio({ label, id, checked }) {
++  return (
++    <div>
++      <input type="radio" id={id} value={id} checked={checked} />
++      <label for={id}>{label}</label>
++    </div>
++  );
++}
+
+export function Todo400() {
+  const addTodo = (data) => {
+    $todos.push({ $text: data.newTodo, $completed: false });
+  };
+
++ let $filter = "all";
++ let $filteredTodos = $todos.filter(($todo) => {
++   if ($filter === "all") return true;
++   if ($filter === "completed") return $todo.$completed;
++   if ($filter === "todo") return !$todo.$completed;
++ });
+
+  return (
+    <div class="m-4 rounded-lg bg-zinc-300 p-8 drop-shadow-xl">
+      <h1>Todo List</h1>
+      <p>{$todos.length} Todos</p>
+
++     <fieldset>
++       <legend>Filter:</legend>
++       <Radio label="Show All" id="all" checked={$filter} />
++       <Radio label="Show Completed" id="completed" checked={$filter} />
++       <Radio label="Show Todo" id="todo" checked={$filter} />
++     </fieldset>
+
+-     {$todos.map(($todo, $idx) => (
++     {$filteredTodos.map(($todo, $idx) => (
+        <TodoItem $todo={$todo} $idx={$idx} />
+      ))}
+
+      <Form onSubmit={addTodo}>
+        <Input placeholder="Add Todo" name="newTodo" required />
+        <Btn type="submit" class="mt-2 w-full">
+          Add
+        </Btn>
+      </Form>
+    </div>
+  );
+}
+```
+
+<Todo400 />
+
+</div>

@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.invalid {
+  @apply text-red-600 ring-red-600 focus:ring-red-600 !important;
+  @apply placeholder:text-red-300 !important;
+}
+
+[disabled] {
+  opacity: 0.5 !important;
+}
+
+input,
+button {
+  transition-property: opacity, background-color;
+  transition-duration: 300ms;
+  opacity: 1;
+}
+
+header.sticky {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.mdx h1 {
+  @apply mb-4 text-4xl font-bold;
+}
+
+.mdx h2 {
+  @apply mb-4 text-3xl font-bold;
+}
+
+.mdx h3 {
+  @apply mb-4 text-2xl font-bold;
+}
+
+.mdx h4 {
+  @apply mb-4 text-xl font-bold;
+}
+
+.mdx h5 {
+  @apply mb-4 text-lg font-bold;
+}
+
+.mdx h6 {
+  @apply mb-4 text-base font-bold;
+}
+
+.mdx p {
+  @apply mb-4 text-lg;
+}
+
+.mdx ul {
+  @apply mb-4 ml-5 list-outside list-disc;
+}
+
+.mdx ol {
+  @apply mb-4 ml-5 list-outside list-decimal;
+}
+
+.mdx li {
+  @apply mb-2;
+}
+
+.mdx a:not(.rz-btn) {
+  @apply text-blue-600 underline;
+}
+
+.mdx blockquote {
+  @apply mb-4 border-l-4 border-gray-300 pl-4;
+}
+
+.mdx hr {
+  @apply my-4 border-gray-300;
+}
+
+.mdx table {
+  @apply mb-4 border-collapse border-gray-300;
+}
+
+.mdx table th {
+  @apply border border-gray-300 bg-gray-100 px-4 py-2 text-left;
+}
+
+.mdx table td {
+  @apply border border-gray-300 px-4 py-2;
+}
+
+.mdx table tr:nth-child(even) {
+  @apply bg-gray-100;
+}
+
+.mdx table tr:hover {
+  @apply bg-gray-200;
+}
+
+.mdx code {
+  @apply rounded bg-zinc-800 p-1 text-sm leading-7 text-white;
+}
+
+.mdx pre {
+  @apply mb-4 rounded p-4;
+}
+
+.mdx pre code {
+  @apply text-sm;
+}
+
+.mdx img {
+  @apply mb-4;
+}
+
+.mdx img + em {
+  @apply block text-center text-sm text-gray-500;
+}
+
+.mdx img + em a {
+  @apply text-blue-600 underline;
+}
+
+.mdx img + em a:hover {
+  @apply text-blue-600 underline;
+}
+
+.mdx img + em a:visited {
+  @apply text-blue-600 underline;
+}
+
+.mdx img + em a:focus {
+  @apply text-blue-600 underline;
+}
+
+.mdx img + em a:active {
+  @apply text-blue-600 underline;
+}

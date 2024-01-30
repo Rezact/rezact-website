@@ -1,0 +1,24 @@
+import { LandingFormExample } from "src/components/LandingFormExample";
+
+# Easy Forms
+
+Forget everything you know about creating forms in react... Literally, forget it all. This is the easiest way to create forms. PERIOD.
+
+```jsx
+import { Form } from "./Form";
+
+export function LandingForm() {
+  const submit = (data) => {
+    console.log(data); // { email: "john@doe.com" }
+  };
+
+  return (
+    <Form onSubmit={submit}>
+      <input name="email" placeholder="Email" />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+<LandingFormExample />

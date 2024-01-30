@@ -1,0 +1,26 @@
+import { ValidationFormExample } from "src/components/ValidationFormExample";
+
+# Oh, you want validation?
+
+Ok, here's a form with validation.
+
+```diff
+import { Form } from "./Form";
++import { Input } from "./ValidatorInput";
+
+export function LandingForm() {
+  const submit = (data) => {
+    console.log(data); // { email: "john@doe.com" }
+  };
+
+  return (
+    <Form onSubmit={submit}>
+-     <input name="email" placeholder="Email" />
++     <Input required type="email" name="email" placeholder="Email" />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+<ValidationFormExample />

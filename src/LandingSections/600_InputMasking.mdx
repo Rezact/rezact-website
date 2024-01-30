@@ -1,0 +1,44 @@
+import { InputMaskingExample } from "src/components/InputMaskingExample";
+
+# What!?!??! You also want masking and input value restrictions?
+
+Fine... 😏
+
+```diff
+import { Form } from "./Form";
+import { Input } from "./ValidatorInput";
++import { luhnCheck } from "./validators";
+
+export function LandingForm() {
+  const submit = (data) => {
+    console.log(data); // { email: "john@doe.com" }
+  };
+
+  return (
+    <Form onSubmit={submit}>
+      <Input required type="email" name="email" placeholder="Email" />
++      <Input
++        exactLength={10}
++        mask="(___) ___ ____"
++        dataAccept={/[\d]/}
++        showFullMaskWhileTyping
++        validateUnMaskedValue
++        name="telephone"
++      />
++      <Input
++        minLength={15}
++        maxLength={16}
++        customValidator={luhnCheck}
++        unmaskInputValueProp
++        mask=".... .... .... ...."
++        maskSlots="."
++        dataAccept={/[\d]/}
++        name="credit-card"
++      />
+      <button type="submit">Submit</button>
+    </Form>
+  );
+}
+```
+
+<InputMaskingExample />
