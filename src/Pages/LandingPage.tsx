@@ -1,5 +1,6 @@
 import { elmRef } from "src/lib/utils";
-import Intro from "src/LandingSections/100_Intro.mdx";
+import { BundleSize } from "src/LandingSections/050_BundleSize";
+import CounterSection from "src/LandingSections/100_Counter.mdx";
 import SignalsAnywhere from "src/LandingSections/200_SignalsAnywhere.mdx";
 import Stores from "src/LandingSections/250_Stores.mdx";
 import Router from "src/LandingSections/300_Routing.mdx";
@@ -15,11 +16,13 @@ const nav = [
   { title: "Intro", href: "#top" },
   { title: "Features", href: "#features" },
   { title: "Docs", href: "/docs" },
+  { title: "Playground", href: "/playground" },
   { title: "Github", href: "https://www.github.com/rezact/rezact" },
 ];
 
 const topSection: any = {};
 const introSectionRef: any = {};
+const counterSectionRef: any = {};
 const signalsAnywhereSectionRef: any = {};
 const storesSectionRef: any = {};
 const routerSectionRef: any = {};
@@ -30,6 +33,7 @@ const maskingSectionRef: any = {};
 const sectionRefs = [
   topSection,
   introSectionRef,
+  counterSectionRef,
   signalsAnywhereSectionRef,
   storesSectionRef,
   routerSectionRef,
@@ -265,6 +269,14 @@ export function Page() {
                 >
                   Get started
                 </a>
+
+                <a
+                  href="/playground"
+                  class="rounded-md bg-green-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-400 hover:text-green-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                >
+                  Try Playground
+                </a>
+
                 <a
                   href="/docs"
                   class="text-sm font-semibold leading-6 text-white"
@@ -280,8 +292,18 @@ export function Page() {
       <div id="features" class="relative isolate pt-14" ref={introSectionRef}>
         <div class="py-24 sm:py-32 lg:pb-40">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
+            <div class="mdx mx-auto max-w-lg px-4 text-xs text-white md:text-base">
+              <BundleSize />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="counter" class="relative isolate pt-14" ref={counterSectionRef}>
+        <div class="py-24 sm:py-32 lg:pb-40">
+          <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div class="mdx mx-auto max-w-2xl text-white">
-              <Intro />
+              <CounterSection />
               <Counter />
             </div>
           </div>
