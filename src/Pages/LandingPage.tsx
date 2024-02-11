@@ -260,7 +260,7 @@ export function Page() {
                 Rezact
               </h1>
               <p class="mt-6 text-lg leading-8 text-gray-300">
-                Because its time for a better client side only framework
+                Because its time for a better client side rendered framework
               </p>
               <div class="mt-10 flex items-center justify-center gap-x-6">
                 <a
