@@ -174,12 +174,14 @@ function Radio({ label, id, checked }) {
 
 `;
 
-export function CodeEditor({ ref: editor }: { ref: any }) {
+export function CodeEditor(props: { ref: any; class: string }) {
+  const { ref: editor } = props;
   const codeEdit = (elm) => {
     const code = elm.innerText;
     elm.innerText = "";
     elm.editor = monaco.editor.create(elm, {
       value: code,
+      automaticLayout: true,
       language: elm.dataset.lang || "javascript",
       theme: "vs-dark",
     });
@@ -206,12 +208,14 @@ export function CodeEditor({ ref: editor }: { ref: any }) {
     }
   };
 
+  const fullClass = ` h-[50vh] w-full whitespace-pre ${props.class}`;
+
   return (
     <>
       <div
         ref={editor}
         onKeyDown={keyDown}
-        class=" h-[50vh] w-full whitespace-pre"
+        class={fullClass}
         onMount={codeEdit}
       >
         {code}

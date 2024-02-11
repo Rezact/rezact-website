@@ -144,13 +144,17 @@ export function Page() {
   return (
     <div>
       <div
-        class="flex flex-row gap-4"
+        class="flex"
         onMount={() => {
           document.head.parentElement!.className = "h-full bg-zinc-200";
         }}
       >
-        <CodeEditor ref={editorRef} />
-        <CodeEditor ref={outputRef} />
+        <div class=" w-1/2">
+          <CodeEditor ref={editorRef} class="" />
+        </div>
+        <div class="w-1/2">
+          <CodeEditor ref={outputRef} class="" />
+        </div>
       </div>
       <div id="rezact-playground-output"></div>
       <span onMount={mnt}></span>
