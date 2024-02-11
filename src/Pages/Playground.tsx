@@ -42,7 +42,7 @@ export function Page() {
         let needsRun = false;
 
         const input = editorRef.elm;
-        input.editor.onKeyUp((e) => {
+        input.editor.onKeyUp(() => {
           clearTimeout(debounceTimeout);
           debounceTimeout = setTimeout(runIfIdle, 50);
         });
