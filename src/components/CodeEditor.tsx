@@ -187,19 +187,6 @@ export function CodeEditor(props: { ref: any; class: string }) {
     });
   };
 
-  //   const toggleTheme = () => {
-  //     const theme = editor._themeService._theme.id;
-  //     if (theme === "vs-dark") {
-  //       editor.updateOptions({
-  //         theme: "vs",
-  //       });
-  //     } else {
-  //       editor.updateOptions({
-  //         theme: "vs-dark",
-  //       });
-  //     }
-  //   };
-
   const keyDown = (ev) => {
     if (ev.ctrlKey && ev.key === "s") {
       ev.preventDefault();
