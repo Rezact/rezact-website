@@ -98,7 +98,13 @@ export function Page() {
             return;
           }
 
-          const results = rzVite.transform(code, "test.tsx");
+          let results = { code: code };
+          try {
+            console.log(code);
+            results = rzVite.transform(code, "test.tsx");
+          } catch (e) {
+            console.log(e);
+          }
           const formatted = await prettier.format(
             results.code.replaceAll("/* @__PURE__ */ ", ""),
             {
@@ -126,7 +132,7 @@ export function Page() {
             try {
               render(shadowDiv, App)
             } catch (e) {
-              const error = shadowDiv.getElementById("error") || document.createElement("pre")
+              const error = shadowDiv.querySelector("#error") || document.createElement("pre")
               error.id = "error"
               error.textContent = e.stack
               shadowDiv.appendChild(error)

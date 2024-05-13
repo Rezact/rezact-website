@@ -4,6 +4,9 @@ import jsonWorker from "monaco-editor/esm/vs/language/json/json.worker?worker";
 import cssWorker from "monaco-editor/esm/vs/language/css/css.worker?worker";
 import htmlWorker from "monaco-editor/esm/vs/language/html/html.worker?worker";
 import tsWorker from "monaco-editor/esm/vs/language/typescript/ts.worker?worker";
+import * as prettier from "prettier/standalone";
+import prettierPluginBabel from "prettier/plugins/babel";
+import prettierPluginEstree from "prettier/plugins/estree";
 
 self.MonacoEnvironment = {
   getWorker(_, label) {
@@ -187,11 +190,16 @@ export function CodeEditor(props: { ref: any; class: string }) {
     });
   };
 
-  const keyDown = (ev) => {
-    if (ev.ctrlKey && ev.key === "s") {
+  const keyDown = async (ev) => {
+    if ((ev.ctrlKey || ev.metaKey) && ev.key === "s") {
       ev.preventDefault();
       const code = editor.elm.editor.getValue();
-      localStorage.setItem("code", code);
+      const formatted = await prettier.format(code, {
+        parser: "babel",
+        plugins: [prettierPluginBabel, prettierPluginEstree],
+      });
+      editor.elm.editor.setValue(formatted);
+      localStorage.setItem("code", formatted);
     }
   };
 
