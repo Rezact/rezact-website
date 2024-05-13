@@ -6,6 +6,8 @@ Forget everything you know about creating forms in react... Literally, forget it
 
 ```jsx
 import { Form } from "./Form";
+import { Btn } from "./Buttons";
+import { Input } from "./ValidatorInput";
 
 export function LandingForm() {
   const submit = (data) => {
@@ -14,8 +16,8 @@ export function LandingForm() {
 
   return (
     <Form onSubmit={submit}>
-      <input name="email" placeholder="Email" />
-      <button type="submit">Submit</button>
+      <Input name="email" placeholder="Email" />
+      <Btn type="submit">Submit</Btn>
     </Form>
   );
 }
